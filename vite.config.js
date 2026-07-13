@@ -7,15 +7,7 @@ export default defineConfig({
   build: {
     // Optimize for production builds on Vercel
     target: 'esnext',
-    minify: 'terser',
-    reportCompressedSize: false,
-    rollupOptions: {
-      output: {
-        manualChunks: {
-          'vendor': ['react', 'react-dom', 'lucide-react']
-        }
-      }
-    }
+    minify: 'terser'
   },
   server: {
     // Development server configuration
