@@ -6,8 +6,7 @@ export default defineConfig({
   plugins: [react()],
   build: {
     // Optimize for production builds on Vercel
-    target: 'esnext',
-    minify: 'terser'
+    target: 'esnext'
   },
   server: {
     // Development server configuration
