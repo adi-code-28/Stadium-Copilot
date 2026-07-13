@@ -17,6 +17,8 @@ export default function App() {
   const [activeTab, setActiveTab] = useState('control-room');
   const [apiKey, setApiKey] = useState(() => localStorage.getItem('gemini_api_key') || '');
   const [tempKey, setTempKey] = useState('');
+  const [apiUrl, setApiUrl] = useState(() => localStorage.getItem('api_url') || import.meta.env.VITE_API_URL || 'http://localhost:3001');
+  const [tempApiUrl, setTempApiUrl] = useState('');
   const [showSettings, setShowSettings] = useState(false);
   const [darkMode, setDarkMode] = useState(true);
   const [toasts, setToasts] = useState([]);
@@ -39,12 +41,18 @@ export default function App() {
     }
   }, [darkMode]);
 
-  const openSettings = () => { setTempKey(apiKey); setShowSettings(true); };
+  const openSettings = () => { 
+    setTempKey(apiKey); 
+    setTempApiUrl(apiUrl);
+    setShowSettings(true); 
+  };
   const saveApiKey = () => {
     localStorage.setItem('gemini_api_key', tempKey);
+    localStorage.setItem('api_url', tempApiUrl);
     setApiKey(tempKey);
+    setApiUrl(tempApiUrl);
     setShowSettings(false);
-    addToast('Gemini API Key configuration saved', 'success');
+    addToast('Configuration saved (API Key & Backend URL)', 'success');
   };
 
   const activeTabInfo = TABS.find(t => t.id === activeTab);
@@ -244,13 +252,25 @@ export default function App() {
             </p>
 
             <div className="space-y-4">
-              <div>
+            <div>
                 <label className="block text-[10px] font-mono font-bold text-zinc-400 uppercase tracking-widest mb-2">Gemini API Key</label>
                 <input
                   type="password"
                   value={tempKey}
                   onChange={(e) => setTempKey(e.target.value)}
                   placeholder="AIzaSy..."
+                  className="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl px-4 py-2.5 text-xs font-mono focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-zinc-900 focus:border-emerald-500 transition-all placeholder:text-zinc-400"
+                  onKeyDown={(e) => { if (e.key === 'Enter') saveApiKey(); }}
+                />
+              </div>
+
+              <div>
+                <label className="block text-[10px] font-mono font-bold text-zinc-400 uppercase tracking-widest mb-2">Backend API URL</label>
+                <input
+                  type="text"
+                  value={tempApiUrl}
+                  onChange={(e) => setTempApiUrl(e.target.value)}
+                  placeholder="http://localhost:3001"
                   className="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl px-4 py-2.5 text-xs font-mono focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-zinc-900 focus:border-emerald-500 transition-all placeholder:text-zinc-400"
                   onKeyDown={(e) => { if (e.key === 'Enter') saveApiKey(); }}
                 />

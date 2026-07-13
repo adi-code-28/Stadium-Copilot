@@ -1,0 +1,12 @@
+{
+  "buildCommand": "npm run build",
+  "installCommand": "npm install",
+  "framework": "vite",
+  "outputDirectory": "dist",
+  "env": {
+    "VITE_API_URL": {
+      "description": "Backend API base URL for production. Leave empty for mock/offline mode."
+    }
+  },
+  "regions": ["iad1"]
+}
